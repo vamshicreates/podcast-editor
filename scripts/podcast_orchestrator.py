@@ -185,7 +185,7 @@ def run_podcast_pipeline(
 def main() -> int:
     parser = argparse.ArgumentParser(description="Cross-Platform Multi-Cam Podcast Editor Orchestrator")
     parser.add_argument("--project-dir", type=Path, default=Path("."), help="Folder containing Camera 1, Camera 2, Camera 3")
-    parser.add_argument("--mode", choices=["status", "preflight", "execute"], default="execute", help="Pipeline execution mode")
+    parser.add_argument("--mode", choices=["setup", "status", "preflight", "execute"], default="execute", help="Pipeline execution mode")
     parser.add_argument("--nle", choices=["premiere", "davinci"], default=None, help="User-selected NLE ('premiere' or 'davinci')")
     parser.add_argument("--cam1", type=str, default=None, help="Optional explicit path to Camera 1")
     parser.add_argument("--cam2", type=str, default=None, help="Optional explicit path to Camera 2")
@@ -196,8 +196,16 @@ def main() -> int:
     parser.add_argument("--burn-subtitles", action="store_true", help="Burn master.srt captions into final_podcast.mp4")
     args = parser.parse_args()
 
+    if args.mode == "setup":
+        from setup_podcast_editor import run_setup
+
+        print(json.dumps(run_setup(install_laya=False), indent=2))
+        return 0
+
     if args.mode == "status":
-        print(json.dumps(check_environment_status(), indent=2))
+        from setup_podcast_editor import run_setup
+
+        print(json.dumps(run_setup(install_laya=False), indent=2))
         return 0
 
     res = run_podcast_pipeline(

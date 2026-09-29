@@ -196,9 +196,9 @@ def render_single_duration_podcast(
     if not segment_files:
         return {"status": "error", "message": "Failed to extract any video segments"}
 
-    # Hard Rule 2: Per-segment extract -> lossless `-c copy` concat
+    # Hard Rule 2: Per-segment extract -> lossless `-c copy` concat (use POSIX slashes for Windows FFmpeg compatibility)
     concat_list = clips_dir / "concat_list.txt"
-    concat_lines = [f"file '{str(p.resolve()).replace(chr(39), chr(39) + chr(92) + chr(39) + chr(39))}'" for p in segment_files]
+    concat_lines = [f"file '{p.resolve().as_posix().replace(chr(39), chr(39) + chr(92) + chr(39) + chr(39))}'" for p in segment_files]
     concat_list.write_text("\n".join(concat_lines) + "\n", encoding="utf-8")
 
     joined_mp4 = edit_dir / "preview_concat.mp4"

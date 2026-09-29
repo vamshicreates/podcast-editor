@@ -150,6 +150,14 @@ def bring_premiere_to_front() -> None:
             subprocess.run(["osascript", "-e", osa], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=5, check=False)
             time.sleep(1.0)
     elif system == "Windows":
+        if ppro_bin and os.path.exists(ppro_bin):
+            try:
+                tl_out = subprocess.check_output(["tasklist"], text=True, stderr=subprocess.DEVNULL, timeout=5)
+                if "Adobe Premiere Pro" not in tl_out:
+                    subprocess.Popen([ppro_bin], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                    time.sleep(2.5)
+            except Exception:
+                pass
         ps_cmd = (
             "$wshell = New-Object -ComObject WScript.Shell; "
             "[void]$wshell.AppActivate('Adobe Premiere Pro'); "

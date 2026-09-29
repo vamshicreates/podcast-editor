@@ -37,10 +37,18 @@ def find_binary(name: str) -> str:
             if os.path.exists(p):
                 return p
     elif platform.system() == "Windows":
-        for p in [
-            os.path.join(os.environ.get("ProgramFiles", r"C:\Program Files"), "ffmpeg", "bin", f"{name}.exe"),
-            os.path.join(str(Path.home()), "scoop", "shims", f"{name}.exe"),
-        ]:
+        exe = name if name.lower().endswith(".exe") else f"{name}.exe"
+        local_appdata = os.environ.get("LOCALAPPDATA", str(Path.home() / "AppData" / "Local"))
+        prog_data = os.environ.get("ProgramData", r"C:\ProgramData")
+        prog_files = os.environ.get("ProgramFiles", r"C:\Program Files")
+        win_candidates = [
+            os.path.join(local_appdata, "Microsoft", "WinGet", "Links", exe),
+            os.path.join(prog_data, "chocolatey", "bin", exe),
+            os.path.join(r"C:\ffmpeg\bin", exe),
+            os.path.join(prog_files, "ffmpeg", "bin", exe),
+            os.path.join(str(Path.home()), "scoop", "shims", exe),
+        ]
+        for p in win_candidates:
             if os.path.exists(p):
                 return p
     return name
@@ -280,7 +288,7 @@ def join_or_select_camera_video(cam_label: str, cam_path: Path, edit_sources_dir
         return joined_path, audios
 
     concat_txt = edit_sources_dir / f"{safe_name}_concat.txt"
-    lines = [f"file '{str(v).replace(chr(39), chr(39) + chr(92) + chr(39) + chr(39))}'" for v in videos]
+    lines = [f"file '{v.resolve().as_posix().replace(chr(39), chr(39) + chr(92) + chr(39) + chr(39))}'" for v in videos]
     concat_txt.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
     ffmpeg = find_binary("ffmpeg")

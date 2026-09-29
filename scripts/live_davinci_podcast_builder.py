@@ -80,6 +80,14 @@ def bring_resolve_to_front() -> None:
                 timeout=8,
             )
         elif sys_name == "Windows":
+            if info["installed"] and info["app_path"]:
+                try:
+                    tl_out = subprocess.check_output(["tasklist"], text=True, stderr=subprocess.DEVNULL, timeout=5)
+                    if "Resolve.exe" not in tl_out:
+                        subprocess.Popen([info["app_path"]], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                        time.sleep(2.5)
+                except Exception:
+                    pass
             vbs = 'Set sh = CreateObject("WScript.Shell")\r\nsh.AppActivate "DaVinci Resolve"\r\n'
             with tempfile.NamedTemporaryFile("w", suffix=".vbs", delete=False, encoding="utf-8") as vf:
                 vf.write(vbs)

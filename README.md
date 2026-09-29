@@ -26,6 +26,7 @@ podcast-editor/
 │       ├── index.html
 │       └── host.jsx
 └── scripts/
+    ├── setup_podcast_editor.py               # Cross-platform zero-touch installer (Windows & macOS)
     ├── podcast_orchestrator.py               # End-to-end CLI coordinator & NLE Selection Gate
     ├── podcast_ingest_sync.py                # Camera 1/2/3 + Audio scanner & FFT waveform sync
     ├── podcast_voice_diarize.py              # Hybrid Auto diarizer (Per-Mic RMS -> Voice Studio/Whisper -> Scribe)
@@ -42,12 +43,17 @@ podcast-editor/
 ## 🚀 Installation (Windows & macOS)
 
 ### Option 1: Zero-Touch via Antigravity Chat
-> **"Install the skill from https://github.com/vamshicreates/podcast-editor into `.agents/skills/podcast-editor`."**
+> **"Install the skill from https://github.com/vamshicreates/podcast-editor into `.agents/skills/podcast-editor` and run `scripts/setup_podcast_editor.py`."**
 
-### Option 2: 1-Line Terminal Clone
-```bash
-git clone https://github.com/vamshicreates/podcast-editor.git .agents/skills/podcast-editor
-```
+### Option 2: 1-Line Terminal Install
+- **macOS (zsh / bash):**
+  ```bash
+  git clone https://github.com/vamshicreates/podcast-editor.git .agents/skills/podcast-editor && python3 .agents/skills/podcast-editor/scripts/setup_podcast_editor.py
+  ```
+- **Windows (PowerShell / CMD):**
+  ```powershell
+  git clone https://github.com/vamshicreates/podcast-editor.git .agents/skills/podcast-editor ; python .agents/skills/podcast-editor/scripts/setup_podcast_editor.py
+  ```
 
 ---
 

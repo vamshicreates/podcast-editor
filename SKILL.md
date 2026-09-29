@@ -41,8 +41,10 @@ When the user provides three camera folders (`Camera 1`, `Camera 2`, `Camera 3`)
   - **macOS:** Use `python3`.
 - **Skill Directory Resolution:**
   - `<SKILL_DIR>` is `.agents/skills/podcast-editor` (workspace) or `~/.gemini/config/skills/podcast-editor` (global).
+- **Zero-Touch Cross-Platform Setup (`scripts/setup_podcast_editor.py`):**
+  - Run `python3 <SKILL_DIR>/scripts/setup_podcast_editor.py` (macOS) or `python <SKILL_DIR>/scripts/setup_podcast_editor.py` (Windows) on first install. Automatically syncs the skill to `<HOME>/.gemini/config/skills/podcast-editor`, enables Adobe CEP `PlayerDebugMode = 1` (`HKCU\Software\Adobe\CSXS.*` on Windows, `defaults write` on macOS), installs `com.vamshicreates.premieremcp` (`127.0.0.1:8088`), and verifies DaVinci Resolve, Premiere Pro, and `ffmpeg`.
 - **100% Visible On-Screen Execution:**
-  - Never hide the NLE work behind the scenes. Both `live_premiere_podcast_builder.py` and `live_davinci_podcast_builder.py` automatically bring the NLE window to the foreground (`osascript` / `System Events` on macOS; `WScript.Shell.AppActivate` on Windows) and place clips, scrub the playhead, apply camera zoom/color balance, and drop color-coded markers step-by-step live on screen.
+  - Never hide the NLE work behind the scenes. Both `live_premiere_podcast_builder.py` and `live_davinci_podcast_builder.py` automatically launch/bring the NLE window to the foreground (`osascript` / `System Events` on macOS; `tasklist` + `WScript.Shell.AppActivate` on Windows) and place clips, scrub the playhead, apply camera zoom/color balance, and drop color-coded markers step-by-step live on screen.
 
 ---
 
